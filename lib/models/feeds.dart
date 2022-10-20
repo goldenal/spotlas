@@ -3,7 +3,7 @@
 //     final feedsResponse = feedsResponseFromJson(jsonString);
 
 import 'dart:convert';
-// data model from the sample response generated from app.quicktype.io
+
 List<FeedsResponse> feedsResponseFromJson(String str) => List<FeedsResponse>.from(json.decode(str).map((x) => FeedsResponse.fromJson(x)));
 
 String feedsResponseToJson(List<FeedsResponse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -111,16 +111,52 @@ class Author {
 class Caption {
   Caption({
     this.text,
+    this.tags,
   });
 
   String text;
+  List<Tag> tags;
 
   factory Caption.fromJson(Map<String, dynamic> json) => Caption(
     text: json["text"] == null ? null : json["text"],
+    tags: json["tags"] == null ? null : List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "text": text == null ? null : text,
+    "tags": tags == null ? null : List<dynamic>.from(tags.map((x) => x.toJson())),
+  };
+}
+
+class Tag {
+  Tag({
+    this.id,
+    this.tagText,
+    this.displayText,
+    this.url,
+    this.type,
+  });
+
+  String id;
+  String tagText;
+  String displayText;
+  String url;
+  String type;
+
+  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+    id: json["id"] == null ? null : json["id"],
+    tagText: json["tag_text"] == null ? null : json["tag_text"],
+    displayText: json["display_text"] == null ? null : json["display_text"],
+    url: json["url"] == null ? null : json["url"],
+    type: json["type"] == null ? null : json["type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "tag_text": tagText == null ? null : tagText,
+    "display_text": displayText == null ? null : displayText,
+    "url": url == null ? null : url,
+    "type": type == null ? null : type,
   };
 }
 
@@ -191,13 +227,13 @@ class Location {
     this.display,
   });
 
-  int latitude;
-  int longitude;
+  double latitude;
+  double longitude;
   String display;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    latitude: json["latitude"] == null ? null : json["latitude"],
-    longitude: json["longitude"] == null ? null : json["longitude"],
+    latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
+    longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
     display: json["display"] == null ? null : json["display"],
   );
 
